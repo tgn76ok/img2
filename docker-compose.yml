@@ -1,0 +1,54 @@
+version: '3'
+
+volumes:
+  postgres_data: {}
+
+networks:
+  api_default:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: api-fator
+    ports:
+      - "3500:3500"
+    environment:
+      - ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      - BUCKET_NAME=fator-politico
+      - MINIO_URL=http://localhost:9001
+      - API_URL=http://localhost:3500
+    networks:
+      - api_default
+  
+  minio:
+    image: minio/minio
+    container_name: minio
+    restart: always
+    ports:
+      - 9000:9000
+      - "9001:9001"
+    environment:
+      - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
+      - MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    command: server /data --console-address ":9001"
+    networks:
+      - api_default
+    volumes:
+      - /mnt/data:/data
+      - /mnt/config:/root/.minio
+  # db:
+  #   image: postgres
+  #   container_name: postgres
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=123Mudar
+  #     - POSTGRES_DB=api
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - api_default
