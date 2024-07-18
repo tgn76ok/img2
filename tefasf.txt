@@ -1,0 +1,60 @@
+Passos Resumidos:
+
+Parar todos os contêineres:
+
+bash
+Copy code
+
+sudo docker stop $(sudo docker ps -aq)
+
+
+Remover todos os contêineres:
+
+bash
+Copy code
+sudo docker rm $(sudo docker ps -aq)
+
+
+
+Remover todas as imagens:
+
+bash
+Copy code
+sudo docker rmi $(sudo docker images -q)
+
+
+(Opcional) Remover todos os volumes:
+
+bash
+Copy code
+sudo docker volume rm $(sudo docker volume ls -q)
+
+
+
+(Opcional) Remover todas as redes não utilizadas:
+
+bash
+Copy code
+sudo docker network prune -f
+
+
+(Opcional) Remover todos os objetos Docker:
+
+bash
+Copy code
+sudo docker system prune -a
+Esses comandos devem ajudar a limpar completamente o seu ambiente Docker.
+
+docker cp c4cc41355eb2:/app/media/ ./imagem/
+docker cp c4cc41355eb2:/app/db.sqlite3 ./
+
+Inovat3cJp
+
+sudo docker stop $(sudo docker ps -q)
+sudo docker rm $(sudo docker ps -a -q)
+docker rmi $(docker images -q)
+docker compose up -d --build
+
+bc0d456d470b
+
+docker exec -it c4cc41355eb2 /bin/bash
